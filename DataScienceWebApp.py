@@ -1,5 +1,4 @@
 
-#Data from https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
 import streamlit as st
 import pandas as pd
 import numpy as np
