@@ -34,11 +34,11 @@ st.map(data.query("injured_persons >= @injured_people")[['latitude','longitude']
 st.header("how many collisions occur during a given time of day")
 #setiing the range over a 24 hour spread
 hour= st.slider("Hour to look at", 0,23)
-#setting the values in the date/time column to the pandas dt hour function
+#setting the values in the date/time column to the pandas dt hour method
 data= data[data['date/time'].dt.hour == hour]
 
 st.markdown('Vehicle collisions between %i:00 and %i:00' % (hour,( hour+1)%24))
-#setting the midpoint
+#setting the midpoint for the pydeck visualization
 midpoint = (np.average(data["latitude"]), np.average(data["longitude"]))
 
 st.write(pdk.Deck(
@@ -70,10 +70,14 @@ st.subheader("breakdown by minute between %i:00 and %i:00" %(hour, (hour+1)%24))
 filtered= data[
     (data['date/time'].dt.hour >= hour) & (data['date/time'].dt.hour < (hour+1))
 ]
+
+
 hist=np.histogram(filtered['date/time'].dt.minute, bins=60, range=(0,60))[0]
 chart_data= pd.DataFrame({'minute': range(60), 'crashes':hist})
 fig= px.bar(chart_data ,x='minute',y= 'crashes',hover_data= ['minute', 'crashes'],height=400)
 st.write(fig)
+
+
 
 st.header("Top 5 dangerous streets by affected type of person")
 select= st.selectbox("Affected type of people", ['Pedestrians','Cyclists','Motorists'])
